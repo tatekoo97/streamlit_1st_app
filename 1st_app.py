@@ -5,7 +5,7 @@ st.title("郵便番号・住所検索（東京都）")
 csv_path = './13tokyo/13TOKYO.CSV'
 
 with st.form(key='postCode_form', clear_on_submit=True):
-
+    # 住所を取得
     def GetAddress():
         postal_code = st.text_input("郵便番号を入力：")
         with open(csv_path, "r", encoding="shift_jis") as f:
@@ -23,19 +23,18 @@ with st.form(key='postCode_form', clear_on_submit=True):
                         st.sidebar.text(title)
     GetAddress()
 
-
+    # 郵便番号取得コード
     def GetPostCode():
-        
-        addr = st.text_input("住所を入力：")
+        addr = st.text_input("住所を入力(漢字入力）：")
         with open(csv_path, "r", encoding="shift_jis") as f:
             for line in f:
-                line = line.replace(' ', '') # cut space
-                line = line.replace('"', '') # cut double quatation
-                cells = line.split(",")      # split by comma
-                code = cells[2]  # Postal Code
-                pref = cells[6]  # Prefucture
-                city = cells[7]  # City name
-                ad = cells[8]    # Address name
+                line = line.replace(' ', '') # スペースカット
+                line = line.replace('"', '') # ダブルクォーテーションカット
+                cells = line.split(",")      # カンマ区切り
+                code = cells[2]     # 郵便番号
+                pref = cells[6]     # 都道府県名
+                city = cells[7]     # 市区町村名
+                ad = cells[8]       # 番地
                 title = pref + city + ad
                 if title.find(addr) != -1:
                     if addr:
